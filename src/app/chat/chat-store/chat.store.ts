@@ -10,8 +10,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, pairwise, tap } from 'rxjs/operators';
-import { linkToGlobalState } from 'src/app/core/global.store';
-import { LoginStore } from 'src/app/store/login/login.store';
+import { selectUserId } from 'src/app/store/login/login.selectors';
 import { environment } from 'src/environments/environment';
 import { Message, MessageStatus, User, UserStatus } from './chat.model';
 import { ChatService } from './chat.service';
@@ -55,7 +54,7 @@ export class ChatStore extends ComponentStore<ChatState> {
     pairwise(),
     tap(([prev, curr]) => console.table({ prev, curr }))
   );
-  readonly userId$ = this.loginStore.userId$;
+  readonly userId$ = this.store.select(selectUserId);
   readonly messages$ = this.select(state => state.messages);
   readonly allMessages$ = this.select(this.messages$, selectAllMessages);
   readonly loadingMessages$ = this.select(state => state.messages.loading);
@@ -63,13 +62,9 @@ export class ChatStore extends ComponentStore<ChatState> {
   readonly allUsers$ = this.select(this.users$, selectAllUsers);
   readonly loadingUsers$ = this.select(state => state.users.loading);
 
-  constructor(
-    private chatService: ChatService,
-    private store: Store,
-    private loginStore: LoginStore
-  ) {
+  constructor(private chatService: ChatService, private store: Store) {
     super(initialState);
-    linkToGlobalState(this.state$, 'ChatStore', this.store);
+
     if (!environment.production) {
       this.logging$.subscribe();
     }

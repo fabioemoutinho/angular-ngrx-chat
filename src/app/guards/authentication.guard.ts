@@ -6,22 +6,23 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
-import { LoginStore } from '../store/login/login.store';
+import { selectToken } from '../store/login/login.selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationGuard implements CanActivate {
-  constructor(private loginStore: LoginStore, private router: Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<UrlTree | boolean> {
-    return this.loginStore.username$.pipe(
-      map(username => {
-        if (username) {
+    return this.store.select(selectToken).pipe(
+      map(token => {
+        if (token) {
           return true;
         }
         return this.router.createUrlTree(['']);

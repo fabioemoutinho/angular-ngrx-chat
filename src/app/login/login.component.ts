@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoginStore } from '../store/login/login.store';
+import { Store } from '@ngrx/store';
+import { login } from '../store/login/login.actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,15 +10,13 @@ import { LoginStore } from '../store/login/login.store';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   protected readonly form = this.fb.nonNullable.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder, private loginStore: LoginStore) {}
-
-  ngOnInit(): void {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   submit(): void {
     this.form.markAllAsTouched();
@@ -25,10 +24,11 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // dispatch login
-    this.loginStore.login(
-      this.form.controls.username.value,
-      this.form.controls.password.value
+    this.store.dispatch(
+      login({
+        username: this.form.controls.username.value,
+        password: this.form.controls.password.value,
+      })
     );
   }
 }

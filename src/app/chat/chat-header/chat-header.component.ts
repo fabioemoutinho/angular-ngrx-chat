@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { LoginStore } from 'src/app/store/login/login.store';
+import { usernameChange } from 'src/app/store/login/login.actions';
+import { selectUsername } from 'src/app/store/login/login.selectors';
 
 @Component({
   selector: 'app-chat-header',
@@ -22,11 +24,11 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   editUsername = false;
 
   protected readonly username$: Observable<string | null> =
-    this.loginStore.username$;
+    this.store.select(selectUsername);
 
   private onDestroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private loginStore: LoginStore) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.username$.pipe(takeUntil(this.onDestroy$)).subscribe(username => {
@@ -48,7 +50,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
       return;
     }
     this.onEditUsername();
-    const newUsername = this.form.controls.username.value;
-    this.loginStore.changeUsername(newUsername);
+    const username = this.form.controls.username.value;
+    this.store.dispatch(usernameChange({ username }));
   }
 }
