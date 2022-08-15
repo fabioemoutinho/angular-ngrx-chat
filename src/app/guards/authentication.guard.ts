@@ -24,7 +24,7 @@ export class AuthenticationGuard implements CanActivate {
         if (username) {
           return true;
         }
-        return this.router.createUrlTree(['/login']);
+        return this.router.createUrlTree(['']);
       })
     );
   }
