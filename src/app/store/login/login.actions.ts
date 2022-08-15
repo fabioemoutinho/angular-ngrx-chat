@@ -1,33 +1,32 @@
 import { createAction, props } from '@ngrx/store';
 
 export const login = createAction(
-  '[Login] Login',
+  '[Login Page] Login',
   props<{ username: string; password: string }>()
 );
 
 export const loginSuccess = createAction(
-  '[Login] Login Success',
+  '[Login API] Login Success',
   props<{ userId: string; username: string; token: string }>()
 );
 
 export const loginFailure = createAction(
-  '[Login] Login Failure',
+  '[Login API] Login Failure',
   props<{ errorMsg: string }>()
 );
 
 export const logout = createAction('[Login] Logout');
 
-// username change actions
 export const usernameChange = createAction(
-  '[Login] Username Change',
+  '[Chat Page] Username Change',
   props<{ username: string }>()
 );
 
 export const usernameChangeSuccess = createAction(
-  '[Login] Username Change Success'
+  '[Login API] Username Change Success'
 );
 
 export const usernameChangeFailure = createAction(
-  '[Login] Username Change Failure',
+  '[Login API] Username Change Failure',
   props<{ errorMsg: string }>()
 );
