@@ -1,11 +1,9 @@
 <div class="card">
-  <!-- header -->
-  <app-chat-header> </app-chat-header>
+  <app-chat-header></app-chat-header>
 
-  <!-- messages -->
   <div *ngIf="userData$ | async as authUser" class="message-wrapper">
     <ng-container *ngFor="let message of messages$ | async">
-      <app-message
+      <app-chat-message
         *ngIf="{
           connectedIsSender: message.userId === authUser.userId,
           user: message.userId | userById | async
@@ -18,11 +16,10 @@
             ? authUser.username
             : messageExtraInfos.user?.name
         ">
-      </app-message>
+      </app-chat-message>
     </ng-container>
   </div>
 
-  <!-- form -->
   <form [formGroup]="form" (submit)="sendMessage()">
     <div class="form-control">
       <input
