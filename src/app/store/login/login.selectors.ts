@@ -1,20 +1,20 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { LoginState } from './login.model';
 
-export const selectloginState = createFeatureSelector<LoginState>('login');
-export const selectUserData = createSelector(selectloginState, state => ({
+export const selectLoginState = createFeatureSelector<LoginState>('login');
+export const selectUserData = createSelector(selectLoginState, state => ({
   userId: state.userId,
   username: state.username,
 }));
 export const selectUserId = createSelector(
-  selectloginState,
+  selectLoginState,
   state => state.userId
 );
 export const selectUsername = createSelector(
-  selectloginState,
+  selectLoginState,
   state => state.username
 );
 export const selectToken = createSelector(
-  selectloginState,
+  selectLoginState,
   state => state.token
 );
