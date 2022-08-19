@@ -7,6 +7,7 @@ import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { Message } from './chat-store/chat.model';
 import { ChatStore } from './chat-store/chat.store';
 import { MessageComponent } from './message/message.component';
+import { UserById } from './message/user-by-id.pipe';
 
 @Component({
   selector: 'app-chat',
@@ -19,6 +20,7 @@ import { MessageComponent } from './message/message.component';
     ReactiveFormsModule,
     MessageComponent,
     ChatHeaderComponent,
+    UserById,
   ],
 })
 export class ChatComponent {

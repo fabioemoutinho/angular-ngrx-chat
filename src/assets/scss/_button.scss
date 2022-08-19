@@ -1,0 +1,13 @@
+button {
+  height: 50px;
+  padding-inline: 0.5rem;
+  background: $primary-color;
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.18rem;
+  border: 0;
+  display: block;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+  cursor: pointer;
+}

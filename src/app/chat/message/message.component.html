@@ -1,21 +1,24 @@
 <div
   [ngClass]="{
-    'my-message': authenticatedUserId === message.userId,
-    'external-message': authenticatedUserId !== message.userId
+    'my-message': connectedUserIsSender,
+    'external-message': !connectedUserIsSender,
+    pending: message.status === PENDING
   }">
-  {{ message.body }}
-  <ng-container *ngIf="message.status === MessageStatus.PENDING">{{
-    message.status
-  }}</ng-container>
+  <h1>
+    <img
+      *ngIf="!connectedUserIsSender && userStatus"
+      src="assets/svgs/{{ userStatus === ONLINE ? 'online' : 'offline' }}.svg"
+      width="13"
+      alt="user online status" />
 
-  <ng-container *ngIf="authenticatedUserId === message.userId">
-    {{ authenticatedUsername }} at {{ message.time | date: 'h:mm:ss' }}
-  </ng-container>
+    {{ userName }}
+  </h1>
+  <p>{{ message.body }}</p>
 
-  <ng-container *ngIf="authenticatedUserId !== message.userId">
-    <ng-container *ngIf="message.userId | userData | async as user"
-      >{{ user.name }} at {{ message.time | date: 'h:mm:ss' }},
-      {{ user.status }}</ng-container
-    >
-  </ng-container>
+  <span [class.pending]="message.status === PENDING">
+    <ng-container *ngIf="message.status !== PENDING; else pendingTPL">
+      {{ message.time | date: ' MMM dd, hh:mm a' }}
+    </ng-container>
+    <ng-template #pendingTPL> Pending... </ng-template>
+  </span>
 </div>

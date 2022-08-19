@@ -1,17 +1,40 @@
-<!-- header -->
-<app-chat-header> </app-chat-header>
+<div class="card">
+  <!-- header -->
+  <app-chat-header> </app-chat-header>
 
-<!-- messages -->
-<div *ngIf="userData$ | async as userData" class="message-wrapper">
-  <app-message
-    *ngFor="let message of messages$ | async"
-    [authenticatedUserId]="userData.userId"
-    [authenticatedUsername]="userData.username"
-    [message]="message"></app-message>
+  <!-- messages -->
+  <div *ngIf="userData$ | async as authUser" class="message-wrapper">
+    <ng-container *ngFor="let message of messages$ | async">
+      <app-message
+        *ngIf="{
+          connectedIsSender: message.userId === authUser.userId,
+          user: message.userId | userById | async
+        } as messageExtraInfos"
+        [message]="message"
+        [connectedUserIsSender]="messageExtraInfos.connectedIsSender"
+        [userStatus]="messageExtraInfos.user?.status"
+        [userName]="
+          messageExtraInfos.connectedIsSender
+            ? authUser.username
+            : messageExtraInfos.user?.name
+        ">
+      </app-message>
+    </ng-container>
+  </div>
+
+  <!-- form -->
+  <form [formGroup]="form" (submit)="sendMessage()">
+    <div class="form-control">
+      <input
+        formControlName="message"
+        type="text"
+        placeholder="enter your text" />
+      <div
+        *ngIf="form.controls.message.touched && form.controls.message.errors?.['required']"
+        class="error-message">
+        Please enter a message.
+      </div>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
 </div>
-
-<!-- form -->
-<form [formGroup]="form" (submit)="sendMessage()">
-  <input formControlName="message" type="text" placeholder="enter your text" />
-  <button type="submit">Submit</button>
-</form>

@@ -1,0 +1,30 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #fff5f5;
+  overflow: hidden;
+  font-family: 'Lato';
+  font-style: normal;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+h1 {
+  color: #0b0d17;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+h2 {
+  color: #6c6c6c;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
+$primary-color: #cb3036;

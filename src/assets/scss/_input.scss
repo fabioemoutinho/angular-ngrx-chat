@@ -1,0 +1,28 @@
+form {
+  label {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  input {
+    display: block;
+    height: 50px;
+    min-width: 350px;
+    padding-inline: 0.25rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+  }
+
+  input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+
+  input:focus-visible {
+    outline-color: #c2d6ef;
+  }
+}
+
+.error-message {
+  color: red;
+}

@@ -1,51 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-body {
-  background-color: #cccccc;
-  margin: 0;
-  padding: 0;
-}
-
-input {
-  color: #333;
-  font-size: 16px;
-  margin: 0 auto;
-  padding: 16px;
-  border-radius: 0.2rem;
-  border: none;
-  width: 100%;
-  display: block;
-}
-
-form {
-  display: flex;
-  flex-flow: column;
-  gap: 12px;
-  margin-top: 24px;
-  overflow: hidden;
-}
-
-button {
-  background-color: #0084ff;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  width: 80%;
-  margin: auto;
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
-  transition: 0.3s;
-
-  &:hover {
-    background-color: #68b6ff;
-  }
-}
-
-.error-message {
-  padding: 8px;
-  background-color: red;
-  color: white;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
+@import 'assets/scss/globals';
+@import 'assets/scss/input';
+@import 'assets/scss/button';
+@import 'assets/scss/card';
+@import 'assets/scss/chat-message';

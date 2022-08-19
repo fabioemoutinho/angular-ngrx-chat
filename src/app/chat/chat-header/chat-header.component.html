@@ -3,7 +3,7 @@
 <!-- unedited form -->
 <div class="wrapper" [ngClass]="{ 'wrapper-center': !editUsername }">
   <ng-container *ngIf="!editUsername">
-    <h4>Logged in as : {{ username$ | async }}</h4>
+    <h2>Logged in as : {{ username$ | async }}</h2>
     <img
       src="assets/edit_icon.svg"
       alt="edit icon"
@@ -14,34 +14,35 @@
 <!-- edit username -->
 <ng-container *ngIf="editUsername">
   <form [formGroup]="form" (submit)="submitEditedUsername()">
-    <input
-      formControlName="username"
-      type="text"
-      placeholder="enter your new username" />
+    <div class="form-control">
+      <input
+        formControlName="username"
+        type="text"
+        placeholder="enter your new username" />
+      <!-- required error -->
+      <div
+        *ngIf="form.controls.username.errors?.['required']"
+        class="error-message">
+        Username is required
+      </div>
+
+      <!-- min width error -->
+      <div
+        *ngIf="form.controls.username.errors?.['minlength']"
+        class="error-message">
+        Username min length is 6 characters
+      </div>
+
+      <!-- max width error -->
+      <div
+        *ngIf="form.controls.username.errors?.['maxlength']"
+        class="error-message">
+        Username max length is 20 characters
+      </div>
+    </div>
     <button type="submit">change name</button>
     <button type="button" class="cancel-button" (click)="onEditUsername()">
       cancel
     </button>
   </form>
-
-  <!-- required error -->
-  <div
-    *ngIf="form.controls.username.errors?.['required']"
-    class="error-message">
-    Username is required
-  </div>
-
-  <!-- min width error -->
-  <div
-    *ngIf="form.controls.username.errors?.['minlength']"
-    class="error-message">
-    Username min length is 6 characters
-  </div>
-
-  <!-- max width error -->
-  <div
-    *ngIf="form.controls.username.errors?.['maxlength']"
-    class="error-message">
-    Username max length is 20 characters
-  </div>
 </ng-container>
