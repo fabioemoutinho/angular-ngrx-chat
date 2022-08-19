@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChatComponent } from './chat/chat.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   {
     path: 'chat',
-    component: ChatComponent,
+    loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule),
     canActivate: [AuthenticationGuard],
+    canLoad: [AuthenticationGuard],
   },
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

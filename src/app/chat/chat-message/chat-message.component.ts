@@ -1,16 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-
-import { Message, MessageStatus, UserStatus } from '../chat-store/chat.model';
+import {
+  Message,
+  MessageStatus,
+  UserStatus,
+} from 'src/app/store/chat/chat.model';
 
 @Component({
-  selector: 'app-message',
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss'],
-  standalone: true,
-  imports: [CommonModule],
+  selector: 'app-chat-message',
+  templateUrl: './chat-message.component.html',
+  styleUrls: ['./chat-message.component.scss'],
 })
-export class MessageComponent {
+export class ChatMessageComponent {
   @Input() message!: Message;
   @Input() connectedUserIsSender!: boolean;
   @Input() userStatus!: UserStatus | null | undefined;
