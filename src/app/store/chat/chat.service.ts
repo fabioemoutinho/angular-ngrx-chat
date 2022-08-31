@@ -75,6 +75,17 @@ export class ChatService {
   constructor(private http: HttpClient) {
     // to-do: remove when backend sends mocked data
     usersMock.forEach((user, index) => {
+      console.log('mock');
+      setTimeout(() =>
+        this.webSocketEvents$.next(
+          new MessageEvent('message', {
+            data: {
+              type: WebSocketEvents.USER_JOINED,
+              data: user,
+            },
+          })
+        )
+      );
       // users join every second
       setTimeout(() => {
         this.webSocketEvents$.next(

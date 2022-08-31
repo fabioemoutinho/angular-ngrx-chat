@@ -10,6 +10,7 @@ import { ChatHeaderModule } from './chat-header/chat-header.module';
 import { ChatMessageModule } from './chat-message/chat-message.module';
 import { ChatComponent } from './chat.component';
 import { UserByIdPipe } from './user-by-id.pipe';
+import { UiScrollModule } from 'ngx-ui-scroll';
 
 const routes: Routes = [{ path: '', component: ChatComponent }];
 
@@ -23,6 +24,7 @@ const routes: Routes = [{ path: '', component: ChatComponent }];
     EffectsModule.forFeature([ChatEffects]),
     ChatHeaderModule,
     ChatMessageModule,
+    UiScrollModule,
   ],
   exports: [UserByIdPipe],
 })

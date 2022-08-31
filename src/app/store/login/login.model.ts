@@ -12,7 +12,7 @@ export interface LoginResponse {
 
 export const initialState: LoginState = {
   userId: null,
-  username: null,
+  username: 'fakeuser',
   oldUsername: null,
-  token: null,
+  token: 'faketoken',
 };

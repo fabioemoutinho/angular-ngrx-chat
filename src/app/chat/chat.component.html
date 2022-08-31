@@ -2,7 +2,7 @@
   <app-chat-header></app-chat-header>
 
   <div *ngIf="userData$ | async as authUser" class="message-wrapper">
-    <ng-container *ngFor="let message of messages$ | async">
+    <ng-container *uiScroll="let message of datasource">
       <app-chat-message
         *ngIf="{
           connectedIsSender: message.userId === authUser.userId,
