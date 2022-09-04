@@ -35,7 +35,7 @@ export class ChatEffects {
     this.actions$.pipe(
       ofType(ChatActions.addPendingMessage),
       concatMap(({ message: { id, body, userId } }) =>
-        this.chatService.sendMessage({ body, userId }).pipe(
+        this.chatService.sendMessage({ id, body, userId }).pipe(
           map(message =>
             ChatActions.sendMessageSuccess({
               message,

@@ -130,11 +130,15 @@ export class ChatService {
 
   // simulating an api call that returns created message with real id and time
   // to-do: connect to actual api
-  sendMessage(message: { userId: string; body: string }): Observable<Message> {
+  sendMessage(message: {
+    id: string;
+    userId: string;
+    body: string;
+  }): Observable<Message> {
     const response = (): Message => ({
       body: message.body,
       userId: message.userId,
-      id: crypto.randomUUID(),
+      id: message.id || crypto.randomUUID(),
       time: new Date().getTime(),
       status: MessageStatus.OK,
     });

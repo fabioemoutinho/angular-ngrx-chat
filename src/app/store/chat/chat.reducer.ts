@@ -52,7 +52,10 @@ export const chatFeature = createFeature({
       (state, { message, pendingMessageId }) => ({
         ...state,
         messages: messageAdapter.mapOne(
-          { id: pendingMessageId, map: () => message },
+          {
+            id: pendingMessageId,
+            map: () => ({ ...message, id: pendingMessageId }),
+          },
           state.messages
         ),
       })
