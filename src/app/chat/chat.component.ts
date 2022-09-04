@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EntityState } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { Datasource, IDatasource } from 'ngx-ui-scroll';
+import { Datasource } from 'ngx-ui-scroll';
 import { Observable, take, tap } from 'rxjs';
 import { sendMessage } from '../store/chat/chat.actions';
 import { Message } from '../store/chat/chat.model';
@@ -27,35 +27,50 @@ export class ChatComponent {
     userId: string | null;
     username: string | null;
   }> = this.store.select(selectUserData);
-  protected readonly datasource: IDatasource<Message> = this.getDatasource();
+
+  protected readonly datasource = new Datasource<Message>({
+    get: (index: number, count: number) => {
+      console.log(index, count);
+      return this.store
+        .select(selectMessagesSlice(index, count))
+        .pipe(take(1), tap(console.log));
+    },
+    settings: { itemSize: 20 },
+    devSettings: { debug: true },
+  });
 
   constructor(
     private fb: FormBuilder,
     private store: Store<EntityState<Message>>
   ) {
+    let prev: Message[] = [];
     this.messages$
       .pipe(
-        tap(messages =>
-          this.datasource.adapter?.reset(this.getDatasource(messages.length))
-        )
+        tap(async curr => {
+          const newItem = curr.find(c => !prev.find(p => c.id == p.id));
+          if (newItem) {
+            prev = curr;
+            await this.datasource.adapter.relax();
+            await this.datasource.adapter.append({
+              items: [newItem],
+            });
+            return;
+          }
+          const oldItem = curr.find(c =>
+            prev.find(p => c.id == p.id && c.time !== p.time)
+          );
+          if (oldItem) {
+            prev = curr;
+            await this.datasource.adapter.relax();
+            await this.datasource.adapter.replace({
+              predicate: ({ data }) => data.id === oldItem.id,
+              items: [oldItem],
+            });
+            return;
+          }
+        })
       )
       .subscribe();
-  }
-
-  getDatasource<T>(maxIndex?: number): IDatasource<T> {
-    return new Datasource<T>({
-      get: (index: number, count: number) => {
-        // why is index always 1?
-        // why does index start at 1?
-        console.log(index, count);
-        return this.store
-          .select(selectMessagesSlice(index, count))
-          .pipe(take(1), tap(console.log));
-      },
-      settings: {
-        maxIndex: maxIndex ?? Infinity,
-      },
-    });
   }
 
   sendMessage(): void {
