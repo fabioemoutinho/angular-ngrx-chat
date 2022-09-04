@@ -35,7 +35,6 @@ export class ChatComponent {
         .select(selectMessagesSlice(index, count))
         .pipe(take(1), tap(console.log));
     },
-    settings: { itemSize: 20 },
     devSettings: { debug: true },
   });
 
@@ -50,14 +49,7 @@ export class ChatComponent {
           const newItem = curr.find(c => !prev.find(p => c.id == p.id));
           if (newItem) {
             prev = curr;
-            await this.datasource.adapter.relax();
-            await this.datasource.adapter.append({
-              items: [newItem],
-              eof: true,
-            });
-            await this.datasource.adapter.clip({
-              forwardOnly: true,
-            });
+            this.appendMessage(newItem);
             return;
           }
           const oldItem = curr.find(c =>
@@ -65,16 +57,31 @@ export class ChatComponent {
           );
           if (oldItem) {
             prev = curr;
-            await this.datasource.adapter.relax();
-            await this.datasource.adapter.replace({
-              predicate: ({ data }) => data.id === oldItem.id,
-              items: [oldItem],
-            });
+            this.replaceMessage(oldItem);
             return;
           }
         })
       )
       .subscribe();
+  }
+
+  async appendMessage(message: Message) {
+    await this.datasource.adapter.relax();
+    await this.datasource.adapter.append({
+      items: [message],
+      eof: true,
+    });
+    await this.datasource.adapter.clip({
+      forwardOnly: true,
+    });
+  }
+
+  async replaceMessage(message: Message) {
+    await this.datasource.adapter.relax();
+    await this.datasource.adapter.replace({
+      predicate: ({ data }) => data.id === message.id,
+      items: [message],
+    });
   }
 
   sendMessage(): void {

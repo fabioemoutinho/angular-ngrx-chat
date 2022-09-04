@@ -144,7 +144,7 @@ export class ChatService {
     });
 
     return of(true).pipe(
-      delay(3000),
+      delay(300),
       map(() => response())
     );
   }
