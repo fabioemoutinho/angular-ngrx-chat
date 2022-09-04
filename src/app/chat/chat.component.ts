@@ -53,6 +53,10 @@ export class ChatComponent {
             await this.datasource.adapter.relax();
             await this.datasource.adapter.append({
               items: [newItem],
+              eof: true,
+            });
+            await this.datasource.adapter.clip({
+              forwardOnly: true,
             });
             return;
           }
