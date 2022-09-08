@@ -71,9 +71,7 @@ export class ChatComponent {
       items: [message],
       eof: true,
     });
-    await this.datasource.adapter.clip({
-      forwardOnly: true,
-    });
+    await this.datasource.adapter.clip();
   }
 
   async replaceMessage(message: Message) {
