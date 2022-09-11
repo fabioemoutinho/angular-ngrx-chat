@@ -63,6 +63,14 @@ export class ChatComponent {
         })
       )
       .subscribe();
+
+    // mock message pull
+    setTimeout(async () => {
+      for (let i = 0; i < 1000; i++) {
+        await new Promise(r => setTimeout(r, 50));
+        this.store.dispatch(sendMessage({ body: 'hello-' + i }));
+      }
+    }, 1000);
   }
 
   async appendMessage(message: Message) {
