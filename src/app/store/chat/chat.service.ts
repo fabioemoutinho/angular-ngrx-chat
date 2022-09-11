@@ -96,7 +96,7 @@ export class ChatService {
             },
           })
         );
-      }, (index + 1) * 1000);
+      }, (index + 1) * 100);
 
       // users send message every 3 seconds
       setTimeout(
@@ -109,7 +109,7 @@ export class ChatService {
               },
             })
           ),
-        (index + 1) * 3000
+        (index + 1) * 300
       );
 
       // users leave every 10 seconds
@@ -123,7 +123,7 @@ export class ChatService {
               },
             })
           ),
-        (index + 1) * 10000
+        (index + 1) * 1000
       );
     });
   }

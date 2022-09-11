@@ -35,7 +35,7 @@ export class ChatComponent {
         .select(selectMessagesSlice(index, count))
         .pipe(take(1), tap(console.log));
     },
-    devSettings: { debug: true },
+    // devSettings: { debug: true },
   });
 
   constructor(
@@ -79,15 +79,28 @@ export class ChatComponent {
       items: [message],
       eof: true,
     });
-    await this.datasource.adapter.clip();
+    if (this.datasource.adapter.eof) {
+      await this.datasource.adapter.clip();
+    }
   }
 
   async replaceMessage(message: Message) {
-    await this.datasource.adapter.relax();
-    await this.datasource.adapter.replace({
-      predicate: ({ data }) => data.id === message.id,
-      items: [message],
+    // replace message only if it is not virtual, synchronous optimization
+    let needReplace = false;
+    this.datasource.adapter.fix({
+      updater: ({ data }) => {
+        if (data.id === message.id) {
+          needReplace = true;
+        }
+      },
     });
+    if (needReplace) {
+      await this.datasource.adapter.relax();
+      await this.datasource.adapter.replace({
+        predicate: ({ data }) => data.id === message.id,
+        items: [message],
+      });
+    }
   }
 
   sendMessage(): void {
