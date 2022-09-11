@@ -134,11 +134,13 @@ export class ChatService {
     id: string;
     userId: string;
     body: string;
+    $index?: number;
   }): Observable<Message> {
     const response = (): Message => ({
       body: message.body,
       userId: message.userId,
       id: message.id || crypto.randomUUID(),
+      $index: message.$index,
       time: new Date().getTime(),
       status: MessageStatus.OK,
     });

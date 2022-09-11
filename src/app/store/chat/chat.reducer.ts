@@ -36,6 +36,8 @@ const initialState: ChatState = {
 export const messageSelectors = messageAdapter.getSelectors();
 export const userSelectors = userAdapter.getSelectors();
 
+let MAX_INDEX = 0;
+
 export const chatFeature = createFeature({
   name: 'chat',
   reducer: createReducer(
@@ -43,7 +45,7 @@ export const chatFeature = createFeature({
     on(ChatActions.addPendingMessage, (state, { message }) => ({
       ...state,
       messages: messageAdapter.addOne(
-        { ...message, status: MessageStatus.PENDING },
+        { ...message, status: MessageStatus.PENDING, $index: ++MAX_INDEX },
         state.messages
       ),
     })),
@@ -54,7 +56,11 @@ export const chatFeature = createFeature({
         messages: messageAdapter.mapOne(
           {
             id: pendingMessageId,
-            map: () => ({ ...message, id: pendingMessageId }),
+            map: ({ $index }) => ({
+              ...message,
+              id: pendingMessageId,
+              $index,
+            }),
           },
           state.messages
         ),
@@ -62,7 +68,10 @@ export const chatFeature = createFeature({
     ),
     on(ChatActions.addMessages, (state, { messages }) => ({
       ...state,
-      messages: messageAdapter.addMany(messages, state.messages),
+      messages: messageAdapter.addMany(
+        messages.map(m => ({ ...m, $index: ++MAX_INDEX })),
+        state.messages
+      ),
     })),
     on(ChatActions.addUser, (state, { user }) => ({
       ...state,

@@ -13,6 +13,7 @@ export interface Message {
   userId: string;
   body: string;
   time: number;
+  $index?: number;
   status?: MessageStatus;
 }
 
