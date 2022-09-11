@@ -14,6 +14,7 @@ export interface Message {
   body: string;
   time: number;
   $index?: number;
+  height?: number;
   status?: MessageStatus;
 }
 

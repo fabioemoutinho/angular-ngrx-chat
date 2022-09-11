@@ -60,6 +60,7 @@ export const chatFeature = createFeature({
               ...message,
               id: pendingMessageId,
               $index,
+              height: Math.floor(Math.random() * (120 - 20 + 1) + 20),
             }),
           },
           state.messages
