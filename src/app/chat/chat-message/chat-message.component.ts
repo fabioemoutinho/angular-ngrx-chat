@@ -3,7 +3,7 @@ import {
   Message,
   MessageStatus,
   UserStatus,
-} from 'src/app/store/chat/chat.model';
+} from '../../store/chat/chat.model';
 
 @Component({
   selector: 'app-chat-message',
