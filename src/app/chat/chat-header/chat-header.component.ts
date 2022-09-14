@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { usernameChange } from 'src/app/store/login/login.actions';
-import { selectUsername } from 'src/app/store/login/login.selectors';
+import { usernameChange } from '../../store/login/login.actions';
+import { selectUsername } from '../../store/login/login.selectors';
 
 @Component({
   selector: 'app-chat-header',
@@ -22,7 +22,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   protected readonly username$: Observable<string | null> =
     this.store.select(selectUsername);
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(private fb: FormBuilder, private store: Store) { }
 
   ngOnInit(): void {
     this.username$.pipe(takeUntil(this.onDestroy$)).subscribe(username => {

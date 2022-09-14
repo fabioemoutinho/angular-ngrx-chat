@@ -13,8 +13,7 @@
 
     {{ userName }}
   </h1>
-  <p>{{ message.body }}</p>
-
+  <p [style.height.px]="message.height">{{ message.body }}</p>
   <span [class.pending]="message.status === PENDING">
     <ng-container *ngIf="message.status !== PENDING; else pendingTPL">
       {{ message.time | date: ' MMM dd, hh:mm a' }}

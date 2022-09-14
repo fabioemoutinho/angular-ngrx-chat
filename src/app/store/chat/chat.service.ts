@@ -96,7 +96,7 @@ export class ChatService {
             },
           })
         );
-      }, (index + 1) * 1000);
+      }, (index + 1) * 100);
 
       // users send message every 3 seconds
       setTimeout(
@@ -109,7 +109,7 @@ export class ChatService {
               },
             })
           ),
-        (index + 1) * 3000
+        (index + 1) * 300
       );
 
       // users leave every 10 seconds
@@ -123,24 +123,30 @@ export class ChatService {
               },
             })
           ),
-        (index + 1) * 10000
+        (index + 1) * 1000
       );
     });
   }
 
   // simulating an api call that returns created message with real id and time
   // to-do: connect to actual api
-  sendMessage(message: { userId: string; body: string }): Observable<Message> {
+  sendMessage(message: {
+    id: string;
+    userId: string;
+    body: string;
+    $index?: number;
+  }): Observable<Message> {
     const response = (): Message => ({
       body: message.body,
       userId: message.userId,
-      id: crypto.randomUUID(),
+      id: message.id || crypto.randomUUID(),
+      $index: message.$index,
       time: new Date().getTime(),
       status: MessageStatus.OK,
     });
 
     return of(true).pipe(
-      delay(3000),
+      delay(300),
       map(() => response())
     );
   }

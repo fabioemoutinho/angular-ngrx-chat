@@ -1,6 +1,6 @@
 div {
   padding: 1rem;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   width: 75%;
   color: black;
   position: relative;
@@ -8,7 +8,7 @@ div {
   &.my-message {
     background-color: #7d95fa;
     border-radius: 10px 1px 10px 10px;
-    float: right;
+    // float: right;
   }
 
   &.my-message::before {
@@ -24,7 +24,7 @@ div {
 
   &.external-message {
     background-color: #d6d6d6;
-    float: left;
+    // float: left;
     border-radius: 1px 10px 10px 10px;
   }
 
